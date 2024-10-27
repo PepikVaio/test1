@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Měsíční přehled</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Měsíční přehled</h1>
+    <form id="monthlyForm">
+        <label for="year">Zadej rok:</label>
+        <input type="text" id="year" name="year" required>
+        <label for="month">Zadej měsíc (číslo):</label>
+        <input type="text" id="month" name="month" required>
+        <button type="submit">Generovat Měsíční PDF</button>
+    </form>
+    <a href="index.html">Přejít na roční přehled</a>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+    <script>
+        document.getElementById('monthlyForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const year = document.getElementById('year').value;
+            const month = document.getElementById('month').value;
+
+            doc.setFontSize(16);
+            doc.text(`Měsíční kalendář pro ${month}/${year}`, 10, 10);
+
+            const daysInMonth = new Date(year, month, 0).getDate();
+
+            let yOffset = 20;
+            doc.setFontSize(14);
+            doc.text(`Měsíc: ${month}`, 10, yOffset);
+            yOffset += 8;
+            doc.setFontSize(12);
+            for (let j = 1; j <= daysInMonth; j++) {
+                doc.text(`${j}/${month}/${year}`, 10, yOffset);
+                yOffset += 6;
+                if (yOffset > 280) {
+                    doc.addPage();
+                    yOffset = 10;
+                }
+            }
+
+            doc.save(`monthly_calendar_${month}_${year}.pdf`);
+        });
+    </script>
+</body>
+</html>
