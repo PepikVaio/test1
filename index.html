@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar with pdfmake</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/vfs_fonts.js"></script>
+    <script>
+        function generatePDF() {
+            const docDefinition = {
+                content: [
+                    {
+                        text: 'Calendar',
+                        style: 'header'
+                    },
+                    {
+                        style: 'tableExample',
+                        table: {
+                            widths: [50, 50, 50, 50, 50, 50, 50],
+                            body: [
+                                ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                                ['', '', '', '', '', '', ''],
+                                ['1', '2', '3', '4', '5', '6', '7'],
+                                ['8', '9', '10', '11', '12', '13', '14'],
+                                ['15', '16', '17', '18', '19', '20', '21'],
+                                ['22', '23', '24', '25', '26', '27', '28'],
+                                ['29', '30', '31', '', '', '', '']
+                            ]
+                        }
+                    }
+                ],
+                styles: {
+                    header: {
+                        fontSize: 24,
+                        bold: true
+                    },
+                    tableExample: {
+                        margin: [0, 5, 0, 15]
+                    }
+                }
+            };
+            pdfMake.createPdf(docDefinition).download();
+        }
+    </script>
+</head>
+<body>
+    <button onclick="generatePDF()">Generate PDF</button>
+</body>
+</html>
