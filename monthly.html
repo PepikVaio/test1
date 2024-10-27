@@ -13,7 +13,7 @@
         <input type="text" id="year" name="year" required>
         <label for="month">Zadej měsíc (číslo):</label>
         <input type="text" id="month" name="month" required>
-        <button type="submit">Generovat Měsíční PDF</button>
+        <button type="submit">Generovat PDF</button>
     </form>
     <a href="index.html">Přejít na roční přehled</a>
 
@@ -30,7 +30,6 @@
             doc.text(`Měsíční kalendář pro ${month}/${year}`, 10, 10);
 
             const daysInMonth = new Date(year, month, 0).getDate();
-
             let yOffset = 20;
             doc.setFontSize(14);
             doc.text(`Měsíc: ${month}`, 10, yOffset);
@@ -44,7 +43,7 @@
                     yOffset = 10;
                 }
             }
-
+            // Uložení PDF souboru
             doc.save(`monthly_calendar_${month}_${year}.pdf`);
         });
     </script>
