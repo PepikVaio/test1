@@ -6,10 +6,54 @@
     <title>Generate PDF</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/vfs_fonts.js"></script>
-    <script src="scripts.js"></script>
+    <script>
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var month = getUrlParameter('month');
+            generatePDF(month);
+        });
+
+        function generatePDF(month) {
+            const docDefinition = {
+                content: [
+                    { text: month + ' Calendar', style: 'header' },
+                    {
+                        style: 'tableExample',
+                        table: {
+                            widths: [50, 50, 50, 50, 50, 50, 50],
+                            body: [
+                                ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                                ['', '', '', '', '', '', ''],
+                                ['1', '2', '3', '4', '5', '6', '7'],
+                                ['8', '9', '10', '11', '12', '13', '14'],
+                                ['15', '16', '17', '18', '19', '20', '21'],
+                                ['22', '23', '24', '25', '26', '27', '28'],
+                                ['29', '30', '31', '', '', '', '']
+                            ]
+                        }
+                    }
+                ],
+                styles: {
+                    header: {
+                        fontSize: 24,
+                        bold: true
+                    },
+                    tableExample: {
+                        margin: [0, 5, 0, 15]
+                    }
+                }
+            };
+            pdfMake.createPdf(docDefinition).download();
+        }
+    </script>
 </head>
 <body>
-    <h1>Generate PDF</h1>
-    <button onclick="generatePDF()">Generate PDF</button>
+    <h1>Generating PDF...</h1>
 </body>
 </html>
