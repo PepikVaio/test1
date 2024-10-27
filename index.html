@@ -4,51 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generátor kalendáře</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <h1>Generátor kalendáře</h1>
-    <form id="calendarForm">
-        <label for="year">Zadej rok:</label>
-        <input type="text" id="year" name="year" required>
-        <button type="submit">Generovat PDF</button>
-    </form>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
-    <script>
-        document.getElementById('calendarForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            const year = document.getElementById('year').value;
-
-            doc.setFontSize(16);
-            doc.text(`Roční kalendář pro rok ${year}`, 10, 10);
-
-            // Generování jednoduchého ročního přehledu
-            const months = [
-                "Leden", "Únor", "Březen", "Duben", "Květen", "Červen", 
-                "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"
-            ];
-            const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
-            let yOffset = 20;
-            for (let i = 0; i < months.length; i++) {
-                doc.setFontSize(14);
-                doc.text(months[i], 10, yOffset);
-                yOffset += 8;
-                doc.setFontSize(12);
-                for (let j = 1; j <= daysInMonth[i]; j++) {
-                    doc.text(`${j}/${i + 1}/${year}`, 10, yOffset);
-                    yOffset += 6;
-                    if (yOffset > 280) {
-                        doc.addPage();
-                        yOffset = 10;
-                    }
-                }
-            }
-
-            doc.save(`calendar_${year}.pdf`);
-        });
-    </script>
+    <ul>
+        <li><a href="annual.html">Roční přehled</a></li>
+        <li><a href="monthly.html">Měsíční přehled</a></li>
+    </ul>
 </body>
 </html>
