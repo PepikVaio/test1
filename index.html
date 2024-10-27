@@ -3,53 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roční přehled</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Stránka 1</title>
 </head>
 <body>
-    <h1>Roční přehled</h1>
-    <form id="yearlyForm">
-        <label for="year">Zadej rok:</label>
-        <input type="text" id="year" name="year" required>
-        <button type="submit">Generovat PDF</button>
-    </form>
-    <a href="monthly.html">Přejít na měsíční přehled</a>
+    <h1>Stránka 1</h1>
+    <p>Toto je obsah první stránky.</p>
+    <button id="generatePdf">Generovat PDF</button>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
-    <script>
-        document.getElementById('yearlyForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            const year = document.getElementById('year').value;
-
-            doc.setFontSize(16);
-            doc.text(`Roční kalendář pro rok ${year}`, 10, 10);
-
-            const months = [
-                "Leden", "Únor", "Březen", "Duben", "Květen", "Červen", 
-                "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"
-            ];
-            const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
-            let yOffset = 20;
-            for (let i = 0; i < months.length; i++) {
-                doc.setFontSize(14);
-                doc.text(months[i], 10, yOffset);
-                yOffset += 8;
-                doc.setFontSize(12);
-                for (let j = 1; j <= daysInMonth[i]; j++) {
-                    doc.text(`${j}/${i + 1}/${year}`, 10, yOffset);
-                    yOffset += 6;
-                    if (yOffset > 280) {
-                        doc.addPage();
-                        yOffset = 10;
-                    }
-                }
-            }
-            // Uložení PDF souboru
-            doc.save(`yearly_calendar_${year}.pdf`);
-        });
-    </script>
+    <script src="scripts.js"></script>
 </body>
 </html>
