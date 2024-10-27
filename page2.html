@@ -3,10 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stránka 2</title>
+    <title>Roční kalendář 2024</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .calendar-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 20px;
+        }
+        .month {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+        .month h2 {
+            margin: 0;
+        }
+        .days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+        }
+        .day {
+            padding: 5px;
+            background: #f4f4f4;
+            text-align: center;
+        }
+        .day-header {
+            font-weight: bold;
+            background: #ddd;
+        }
+    </style>
 </head>
 <body>
-    <h1>Stránka 2</h1>
-    <p>Toto je obsah druhé stránky.</p>
+    <h1>Roční kalendář 2024</h1>
+    <div class="calendar-container">
+        <div class="month">
+            <h2>Leden</h2>
+            <div class="days">
+                <div class="day-header">Po</div>
+                <div class="day-header">Út</div>
+                <div class="day-header">St</div>
+                <div class="day-header">Čt</div>
+                <div class="day-header">Pá</div>
+                <div class="day-header">So</div>
+                <div class="day-header">Ne</div>
+                <!-- Add days here -->
+            </div>
+        </div>
+        <!-- Repeat for each month -->
+        <div class="month">
+            <h2>Únor</h2>
+            <div class="days">
+                <div class="day-header">Po</div>
+                <div class="day-header">Út</div>
+                <div class="day-header">St</div>
+                <div class="day-header">Čt</div>
+                <div class="day-header">Pá</div>
+                <div class="day-header">So</div>
+                <div class="day-header">Ne</div>
+                <!-- Add days here -->
+            </div>
+        </div>
+        <!-- Repeat for remaining months -->
+    </div>
 </body>
 </html>
