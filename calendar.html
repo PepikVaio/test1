@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Monthly Calendar</title>
     <style>
+        /* Stávající CSS */
         * {
             margin: 0;
             padding: 0;
@@ -13,6 +14,7 @@
         body {
             font-family: Arial, sans-serif;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
@@ -65,10 +67,25 @@
             background-color: #ff9f43;
             color: white;
         }
+
+        .download-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
-    <div class="calendar">
+    <div class="calendar" id="calendar">
         <div class="calendar-header" id="calendarHeader">
             <h2>Calendar</h2>
         </div>
@@ -84,41 +101,47 @@
         <div class="days" id="calendarDays"></div>
     </div>
 
+    <button class="download-btn" onclick="downloadPDF()">Download PDF</button>
+
+    <!-- Přidání odkazů na knihovny -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
     <script>
-        // Function to get URL parameters
+        // Funkce pro získání parametrů URL
         function getUrlParam(param) {
             const params = new URLSearchParams(window.location.search);
             return params.get(param);
         }
 
-        // Function to generate calendar for a given month and year
+        // Funkce pro generování kalendáře pro daný měsíc a rok
         function generateCalendar(month, year) {
             const daysContainer = document.getElementById('calendarDays');
             const header = document.getElementById('calendarHeader').querySelector('h2');
 
-            // Set header text
+            // Nastavení textu záhlaví
             const monthNames = ["January", "February", "March", "April", "May", "June", 
                                 "July", "August", "September", "October", "November", "December"];
             header.textContent = `${monthNames[month - 1]} ${year}`;
 
-            // Get the number of days in the month
+            // Získání počtu dní v měsíci
             const daysInMonth = new Date(year, month, 0).getDate();
             const firstDay = new Date(year, month - 1, 1).getDay();
 
-            // Clear existing days
+            // Vymazání existujících dní
             daysContainer.innerHTML = "";
 
-            // Adjust for start day (Monday = 1, Sunday = 0)
+            // Úprava pro začátek týdne (pondělí = 1, neděle = 0)
             const offset = (firstDay === 0 ? 6 : firstDay - 1);
             
-            // Create empty boxes for days from previous month
+            // Vytvoření prázdných boxů pro dny z předchozího měsíce
             for (let i = 0; i < offset; i++) {
                 const emptyDiv = document.createElement('div');
                 emptyDiv.classList.add('day', 'empty');
                 daysContainer.appendChild(emptyDiv);
             }
 
-            // Create divs for each day of the month
+            // Vytvoření divů pro každý den v měsíci
             for (let i = 1; i <= daysInMonth; i++) {
                 const dayDiv = document.createElement('div');
                 dayDiv.classList.add('day');
@@ -127,15 +150,32 @@
             }
         }
 
-        // Get month and year from URL parameters
+        // Získání měsíce a roku z URL parametrů
         const month = parseInt(getUrlParam('month'));
         const year = parseInt(getUrlParam('year'));
 
-        // Generate calendar if valid month and year are provided
+        // Vygenerování kalendáře pokud jsou zadané validní parametry
         if (month && year) {
             generateCalendar(month, year);
         } else {
             document.getElementById('calendarHeader').querySelector('h2').textContent = "Invalid Date";
+        }
+
+        // Funkce pro stažení kalendáře jako PDF
+        function downloadPDF() {
+            const calendar = document.getElementById('calendar');
+
+            html2canvas(calendar).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
+                const imgWidth = 190; // Šířka obrázku v PDF
+                const pageHeight = pdf.internal.pageSize.height;
+                const imgHeight = canvas.height * imgWidth / canvas.width;
+                const position = 10; // Pozice obrázku na stránce
+
+                pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                pdf.save('calendar.pdf');
+            });
         }
     </script>
 </body>
