@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Monthly Calendar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f3f4f7;
+        }
+
+        .calendar {
+            width: 400px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .calendar-header {
+            padding: 20px;
+            text-align: center;
+            background-color: #ff6b6b;
+            color: white;
+        }
+
+        .weekdays {
+            display: flex;
+            background-color: #ff9f43;
+            color: white;
+        }
+
+        .weekday {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .days {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .day {
+            flex: 1 0 14.28%; /* Each day will occupy approximately 1/7th of the width */
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .day:hover {
+            background-color: #ff9f43;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="calendar">
+        <div class="calendar-header" id="calendarHeader">
+            <h2>Calendar</h2>
+        </div>
+        <div class="weekdays">
+            <div class="weekday">Mon</div>
+            <div class="weekday">Tue</div>
+            <div class="weekday">Wed</div>
+            <div class="weekday">Thu</div>
+            <div class="weekday">Fri</div>
+            <div class="weekday">Sat</div>
+            <div class="weekday">Sun</div>
+        </div>
+        <div class="days" id="calendarDays"></div>
+    </div>
+
+    <script>
+        // Function to get URL parameters
+        function getUrlParam(param) {
+            const params = new URLSearchParams(window.location.search);
+            return params.get(param);
+        }
+
+        // Function to generate calendar for a given month and year
+        function generateCalendar(month, year) {
+            const daysContainer = document.getElementById('calendarDays');
+            const header = document.getElementById('calendarHeader').querySelector('h2');
+
+            // Set header text
+            const monthNames = ["January", "February", "March", "April", "May", "June", 
+                                "July", "August", "September", "October", "November", "December"];
+            header.textContent = `${monthNames[month - 1]} ${year}`;
+
+            // Get the number of days in the month
+            const daysInMonth = new Date(year, month, 0).getDate();
+            const firstDay = new Date(year, month - 1, 1).getDay();
+
+            // Clear existing days
+            daysContainer.innerHTML = "";
+
+            // Adjust for start day (Monday = 1, Sunday = 0)
+            const offset = (firstDay === 0 ? 6 : firstDay - 1);
+            
+            // Create empty boxes for days from previous month
+            for (let i = 0; i < offset; i++) {
+                const emptyDiv = document.createElement('div');
+                emptyDiv.classList.add('day', 'empty');
+                daysContainer.appendChild(emptyDiv);
+            }
+
+            // Create divs for each day of the month
+            for (let i = 1; i <= daysInMonth; i++) {
+                const dayDiv = document.createElement('div');
+                dayDiv.classList.add('day');
+                dayDiv.textContent = i;
+                daysContainer.appendChild(dayDiv);
+            }
+        }
+
+        // Get month and year from URL parameters
+        const month = parseInt(getUrlParam('month'));
+        const year = parseInt(getUrlParam('year'));
+
+        // Generate calendar if valid month and year are provided
+        if (month && year) {
+            generateCalendar(month, year);
+        } else {
+            document.getElementById('calendarHeader').querySelector('h2').textContent = "Invalid Date";
+        }
+    </script>
+</body>
+</html>
