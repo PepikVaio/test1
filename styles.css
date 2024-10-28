@@ -1,26 +1,61 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f3f4f7;
 }
 
-h1 {
+.calendar {
+    width: 400px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.calendar-header {
+    padding: 20px;
     text-align: center;
+    background-color: #ff6b6b;
+    color: white;
 }
 
-form {
+.weekdays {
     display: flex;
-    flex-direction: column;
+    background-color: #ff9f43;
+    color: white;
 }
 
-label, input {
-    margin: 5px 0;
+.weekday {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
 }
 
-button {
-    margin-top: 10px;
+.days {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.day {
+    flex: 1 0 14.28%; /* Each day will occupy approximately 1/7th of the width */
+    padding: 15px;
+    text-align: center;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.day:hover {
+    background-color: #ff9f43;
+    color: white;
 }
